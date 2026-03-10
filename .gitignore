@@ -1,0 +1,191 @@
+# ===========================
+# Java
+# ===========================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+
+# ===========================
+# Maven
+# ===========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ===========================
+# Spring Boot
+# ===========================
+application-local.yml
+application-local.properties
+application-dev.yml
+application-dev.properties
+application-prod.yml
+application-prod.properties
+
+# ===========================
+# Environment & Secrets
+# ===========================
+.env
+*.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.truststore
+
+# ===========================
+# IDEs — IntelliJ IDEA
+# ===========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# ===========================
+# IDEs — Eclipse
+# ===========================
+.classpath
+.project
+.settings/
+.springBeans
+.sts4-cache
+bin/
+
+# ===========================
+# IDEs — VS Code
+# ===========================
+.vscode/
+*.code-workspace
+
+# ===========================
+# IDEs — NetBeans
+# ===========================
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ===========================
+# OS Files
+# ===========================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+
+# ===========================
+# Docker
+# ===========================
+.docker/
+
+# ===========================
+# Logs
+# ===========================
+logs/
+*.log
+*.log.*
+log/
+spring.log
+
+# ===========================
+# Test & Coverage
+# ===========================
+/test-output/
+surefire-reports/
+jacoco.exec
+jacoco/
+coverage/
+.nyc_output/
+
+# ===========================
+# Node / Frontend (React)
+# ===========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+.npm
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+
+# ===========================
+# Database
+# ===========================
+*.sql.bak
+*.db
+*.sqlite
+*.h2.db
+*.mv.db
+*.trace.db
+data/
+
+# ===========================
+# Kafka / Zookeeper local data
+# ===========================
+kafka-logs/
+zookeeper-data/
+kafka-data/
+
+# ===========================
+# Miscellaneous
+# ===========================
+*.tmp
+*.bak
+*.swp
+*.swo
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# Eclipse Workspace
+.metadata/
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+*.launch
+.gitattributes
+mvnw
+mvnw.cmd
+.mvn/
