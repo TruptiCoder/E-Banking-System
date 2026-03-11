@@ -1,7 +1,8 @@
 package com.trupti.security;
 
-import com.trupti.entity.Customer;
 import org.springframework.stereotype.Component;
+
+import com.trupti.dto.CustomerDTO;
 
 @Component
 public class JwtTokenProvider {
@@ -11,7 +12,7 @@ public class JwtTokenProvider {
         this.jwtUtil = jwtUtil;
     }
 
-    public String generateAccessToken(Customer customer) {
+    public String generateAccessToken(CustomerDTO customer) {
 
         return jwtUtil.generateAccessToken(
                 customer.getCustomerId(),
@@ -19,7 +20,7 @@ public class JwtTokenProvider {
         );
     }
 
-    public String generateRefreshToken(Customer customer) {
+    public String generateRefreshToken(CustomerDTO customer) {
 
         return jwtUtil.generateRefreshToken(
                 customer.getCustomerId()

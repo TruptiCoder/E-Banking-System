@@ -6,15 +6,16 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.trupti.client.CustomerServiceClient;
 import com.trupti.dto.ChangePasswordDTO;
+import com.trupti.dto.CustomerDTO;
+import com.trupti.dto.CustomerResponseDTO;
 import com.trupti.dto.LoginRequestDTO;
 import com.trupti.dto.LoginResponseDTO;
 import com.trupti.dto.RefreshTokenRequestDTO;
 import com.trupti.entity.AuditLog;
-import com.trupti.entity.Customer;
 import com.trupti.entity.PasswordHistory;
 import com.trupti.repository.AuditLogRepository;
-import com.trupti.repository.CustomerRepository;
 import com.trupti.repository.PasswordHistoryRepository;
 import com.trupti.security.JwtTokenProvider;
 
@@ -24,19 +25,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 	private final PasswordEncoder passwordEncoder;
-	private final CustomerRepository customerRepository;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordHistoryRepository passwordHistoryRepository;
 	private final AuditLogRepository auditLogRepository;
-//	private final CustomerServiceClient serviceClient;
+	private final CustomerServiceClient customerServiceClient;
 //	private final AuthEventProducer authEventProducer;
 
 	public Optional<LoginResponseDTO> login(LoginRequestDTO request, String ipAddress) {
 
-		Optional<Customer> customerRes = customerRepository.findByUsername(request.getUsername());
-		if(customerRes.isEmpty()) return Optional.empty();
+		CustomerResponseDTO customerRes = customerServiceClient.getCustomerByUsername(request.getUsername());
+		if(customerRes.getCustomerDTO() == null) return Optional.empty();
 		
-		Customer customer = customerRes.get();
+		CustomerDTO customer = customerRes.getCustomerDTO();
 		if (!passwordEncoder.matches(request.getPassword(), customer.getPasswordHash())) {
 			recordAudit(customer.getCustomerId(), "LOGIN_FAILED", ipAddress);
 			return Optional.empty();
@@ -61,10 +61,10 @@ public class AuthService {
 
 		Long customerId = jwtTokenProvider.getCustomerId(request.getRefreshToken());
 
-		Customer customer = customerRepository.findById(customerId)
-				.orElseThrow(() -> new RuntimeException("Customer not found"));
+		CustomerResponseDTO customer = customerServiceClient.getCustomer(customerId);
+		if(customer.getCustomerDTO() == null) return Optional.empty();
 
-		String newAccessToken = jwtTokenProvider.generateAccessToken(customer);
+		String newAccessToken = jwtTokenProvider.generateAccessToken(customer.getCustomerDTO());
 
 		return Optional.of(LoginResponseDTO.builder().accessToken(newAccessToken).refreshToken(request.getRefreshToken())
 				.expiresIn(3600).build());
@@ -72,10 +72,10 @@ public class AuthService {
 
 	public boolean changePassword(ChangePasswordDTO request) {
 
-		Optional<Customer> customerRes = customerRepository.findById(request.getCustomerId());
-		if(customerRes.isEmpty()) return false;
+		CustomerResponseDTO customerRes = customerServiceClient.getCustomer(request.getCustomerId());
+		if(customerRes.getCustomerDTO() == null) return false;
 		
-		Customer customer = customerRes.get();
+		CustomerDTO customer = customerRes.getCustomerDTO();
 		if (!passwordEncoder.matches(request.getOldPassword(), customer.getPasswordHash())) {
 			return false;
 		}
@@ -93,10 +93,8 @@ public class AuthService {
 		passwordHistoryRepository.save(history);
 
 		// Update password
-		customer.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
-		customerRepository.save(customer);
-		
-		return true;
+		String passwordHash = passwordEncoder.encode(request.getNewPassword());
+		return customerServiceClient.changePassword(customer.getCustomerId(), passwordHash);
 	}
 
 	public boolean validateToken(String token) {

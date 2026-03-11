@@ -1,6 +1,9 @@
 package com.trupti.service;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.trupti.dto.CreateCustomerRequest;
@@ -13,31 +16,23 @@ public class AdminCustomerService {
 
     private final CustomerServiceClient customerServiceClient;
 
-    /**
-     * Create a new customer by calling Customer Service
-     */
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
         return customerServiceClient.createCustomer(request);
     }
 
-    /**
-     * Get customer details
-     */
-    public CustomerResponse getCustomer(Long customerId) {
-        return customerServiceClient.getCustomer(customerId);
+    public Optional<CustomerResponse> getCustomer(Long customerId) {
+        CustomerResponse response = customerServiceClient.getCustomer(customerId);
+        if(response.getCustomerDTO() == null) {
+        		return Optional.empty();
+        }
+        return Optional.of(response);
     }
 
-    /**
-     * Update customer information
-     */
     public CustomerResponse updateCustomer(Long customerId, CreateCustomerRequest request) {
         return customerServiceClient.updateCustomer(customerId, request);
     }
 
-    /**
-     * Delete / disable customer
-     */
-    public void deleteCustomer(Long customerId) {
-        customerServiceClient.deleteCustomer(customerId);
+    public boolean deleteCustomer(Long customerId) {
+        return customerServiceClient.deleteCustomer(customerId);
     }
 }

@@ -1,55 +1,46 @@
 package com.trupti.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.trupti.dto.AccountResponse;
+import com.trupti.dto.CreateAccountRequest;
+import com.trupti.service.AdminAccountService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import com.trupti.dto.CreateCustomerRequest;
-import com.trupti.dto.CustomerResponse;
-import com.trupti.service.AdminCustomerService;
 
 @RestController
-@RequestMapping("/api/admin/customers")
+@RequestMapping("/api/admin/accounts")
 @RequiredArgsConstructor
 public class AdminAccountController {
 
-	private final AdminCustomerService adminCustomerService;
-
-	/**
-	 * Create new customer (Admin only)
-	 */
+	private final AdminAccountService adminAccountService;
+	
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
-	public CustomerResponse createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
-		return adminCustomerService.createCustomer(request);
+	public AccountResponse createAccount(@Valid @RequestBody CreateAccountRequest request) {
+		return adminAccountService.createAccount(request);
 	}
 
-	/**
-	 * Get customer details
-	 */
-	@GetMapping("/{customerId}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public CustomerResponse getCustomer(@PathVariable Long customerId) {
-		return adminCustomerService.getCustomer(customerId);
+	@GetMapping("/customer/{customerId}")
+	public List<AccountResponse> getCustomerAccounts(@PathVariable Long customerId) {
+		return adminAccountService.getCustomerAccounts(customerId);
 	}
 
-	/**
-	 * Update customer information
-	 */
-	@PutMapping("/{customerId}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public CustomerResponse updateCustomer(@PathVariable Long customerId,
-			@Valid @RequestBody CreateCustomerRequest request) {
-		return adminCustomerService.updateCustomer(customerId, request);
+	@GetMapping("/{accountId}")
+	public AccountResponse getAccountDetails(@PathVariable Long accountId) {
+		return adminAccountService.getAccountDetails(accountId);
 	}
 
-	/**
-	 * Disable customer account
-	 */
-	@DeleteMapping("/{customerId}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public void deleteCustomer(@PathVariable Long customerId) {
-		adminCustomerService.deleteCustomer(customerId);
+	@DeleteMapping("/{accountId}")
+	public void deleteAccount(@PathVariable Long accountId) {
+		adminAccountService.deleteAccount(accountId);
 	}
 }

@@ -6,42 +6,19 @@ import org.springframework.web.bind.annotation.*;
 import com.trupti.dto.CreateCustomerRequest;
 import com.trupti.dto.CustomerResponse;
 
-@FeignClient(
-        name = "CUSTOMER-SERVICE",
-        path = "/api/customers"
-)
+@FeignClient(name = "EBS-CUSTOMER", path = "/api/customers")
 public interface CustomerServiceClient {
 
-    /**
-     * Create customer
-     */
-    @PostMapping
-    CustomerResponse createCustomer(
-            @RequestBody CreateCustomerRequest request
-    );
+	@PostMapping("/admin/register")
+	CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request);
 
-    /**
-     * Get customer by ID
-     */
-    @GetMapping("/{customerId}")
-    CustomerResponse getCustomer(
-            @PathVariable("customerId") Long customerId
-    );
+	@GetMapping("/{customerId}")
+	CustomerResponse getCustomer(@PathVariable Long customerId);
 
-    /**
-     * Update customer
-     */
-    @PutMapping("/{customerId}")
-    CustomerResponse updateCustomer(
-            @PathVariable("customerId") Long customerId,
-            @RequestBody CreateCustomerRequest request
-    );
+	@PutMapping("/admin/{customerId}")
+	CustomerResponse updateCustomer(@PathVariable Long customerId,
+			@RequestBody CreateCustomerRequest request);
 
-    /**
-     * Delete / disable customer
-     */
-    @DeleteMapping("/{customerId}")
-    void deleteCustomer(
-            @PathVariable("customerId") Long customerId
-    );
+	@DeleteMapping("/admin/{customerId}")
+	boolean deleteCustomer(@PathVariable Long customerId);
 }

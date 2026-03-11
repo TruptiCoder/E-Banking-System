@@ -36,7 +36,7 @@ public class CustomerController {
 			CustomerResponseVO vo = new CustomerResponseVO(dto.get(), "Customer fetched successfully!");
 			return ResponseEntity.ok().body(vo);
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomerResponseVO(null, "Customer not found!"));
+		return ResponseEntity.ok().body(new CustomerResponseVO(null, "Customer not found!"));
 	}
 
 	@PutMapping("/{customerId}/profile")
@@ -54,10 +54,23 @@ public class CustomerController {
 	@GetMapping("/{customerId}/accounts")
 	public ResponseEntity<List<AccountSummaryVO>> getAccounts(@PathVariable Long customerId) {
 		Optional<List<AccountSummaryVO>> accountsRes = service.getCustomerAccounts(customerId);
-		if(accountsRes.isPresent()) {
+		if (accountsRes.isPresent()) {
 			return ResponseEntity.ok().body(accountsRes.get());
 		}
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/getbyUsername/{username}")
+	public ResponseEntity<CustomerResponseVO> getCustomerByUsername(@PathVariable String username) {
+		Optional<CustomerDTO> dto = service.getCustomerByUsername(username);
+		if(dto.isEmpty()) return ResponseEntity.ok().body(new CustomerResponseVO(null, "User not found!"));
+		return ResponseEntity.ok().body(new CustomerResponseVO(dto.get(), "User fetched Successfully!"));
+	}
+	
+	@PutMapping("/{customerId}/{passwordHash}")
+	public ResponseEntity<Boolean> changePassword(@PathVariable Long customerId, @PathVariable String passwordHash) {
+		boolean res = service.changePassword(customerId, passwordHash);
+		return ResponseEntity.ok().body(res);
 	}
 
 }

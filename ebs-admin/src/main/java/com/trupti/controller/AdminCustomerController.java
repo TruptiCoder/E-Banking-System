@@ -1,56 +1,55 @@
 package com.trupti.controller;
 
+import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.trupti.dto.CreateCustomerRequest;
+import com.trupti.dto.CustomerResponse;
+import com.trupti.service.AdminCustomerService;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import com.trupti.dto.AccountResponse;
-import com.trupti.dto.CreateAccountRequest;
-import com.trupti.service.AdminAccountService;
-
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin/accounts")
+@RequestMapping("/api/admin/customers")
 @RequiredArgsConstructor
 public class AdminCustomerController {
 
-	private final AdminAccountService adminAccountService;
+	private final AdminCustomerService adminCustomerService;
 
-	/**
-	 * Create a new bank account for a customer
-	 */
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
-	public AccountResponse createAccount(@Valid @RequestBody CreateAccountRequest request) {
-		return adminAccountService.createAccount(request);
+	public CustomerResponse createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
+		return adminCustomerService.createCustomer(request);
 	}
 
-	/**
-	 * Get all accounts of a customer
-	 */
-	@GetMapping("/customer/{customerId}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public List<AccountResponse> getCustomerAccounts(@PathVariable Long customerId) {
-		return adminAccountService.getCustomerAccounts(customerId);
+	@GetMapping("/{customerId}")
+	public ResponseEntity<CustomerResponse> getCustomer(@PathVariable Long customerId) {
+		Optional<CustomerResponse> res = adminCustomerService.getCustomer(customerId);
+		if(res.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomerResponse(null, "Customer not found!"));
+		}
+		return ResponseEntity.ok().body(res.get());
 	}
 
-	/**
-	 * Get account details
-	 */
-	@GetMapping("/{accountId}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public AccountResponse getAccountDetails(@PathVariable Long accountId) {
-		return adminAccountService.getAccountDetails(accountId);
+	@PutMapping("/{customerId}")
+	public CustomerResponse updateCustomer(@PathVariable Long customerId,
+			@Valid @RequestBody CreateCustomerRequest request) {
+		return adminCustomerService.updateCustomer(customerId, request);
 	}
 
-	/**
-	 * Delete / Close account
-	 */
-	@DeleteMapping("/{accountId}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public void deleteAccount(@PathVariable Long accountId) {
-		adminAccountService.deleteAccount(accountId);
+	@DeleteMapping("/{customerId}")
+	public String deleteCustomer(@PathVariable Long customerId) {
+		boolean res = adminCustomerService.deleteCustomer(customerId);
+		return res ? "Customer Deleted Successfully!" : "Some problem occured!";
 	}
 }
