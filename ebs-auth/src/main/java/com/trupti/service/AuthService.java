@@ -3,7 +3,6 @@ package com.trupti.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +13,23 @@ import com.trupti.dto.RefreshTokenRequestDTO;
 import com.trupti.entity.AuditLog;
 import com.trupti.entity.Customer;
 import com.trupti.entity.PasswordHistory;
-import com.trupti.kafka.AuthEventProducer;
 import com.trupti.repository.AuditLogRepository;
 import com.trupti.repository.CustomerRepository;
 import com.trupti.repository.PasswordHistoryRepository;
 import com.trupti.security.JwtTokenProvider;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class AuthService {
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	@Autowired
-	private CustomerRepository customerRepository;
-	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
-	@Autowired
-	private PasswordHistoryRepository passwordHistoryRepository;
-	@Autowired
-	private AuditLogRepository auditLogRepository;
-	@Autowired
-	private AuthEventProducer authEventProducer;
+	private final PasswordEncoder passwordEncoder;
+	private final CustomerRepository customerRepository;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final PasswordHistoryRepository passwordHistoryRepository;
+	private final AuditLogRepository auditLogRepository;
+//	private final CustomerServiceClient serviceClient;
+//	private final AuthEventProducer authEventProducer;
 
 	public Optional<LoginResponseDTO> login(LoginRequestDTO request, String ipAddress) {
 

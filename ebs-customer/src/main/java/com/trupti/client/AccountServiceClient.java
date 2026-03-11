@@ -1,7 +1,6 @@
 package com.trupti.client;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,5 +12,5 @@ import com.trupti.vo.AccountSummaryVO;
 public interface AccountServiceClient {
 	
 	@GetMapping("/api/accounts/{customerId}")
-	Optional<List<AccountSummaryVO>> getAccounts(@PathVariable Long customerId);
+	List<AccountSummaryVO> getAccounts(@PathVariable Long customerId);
 }

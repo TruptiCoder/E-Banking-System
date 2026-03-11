@@ -56,7 +56,10 @@ public class CustomerServiceImpl {
 	}
 	
 	public Optional<List<AccountSummaryVO>> getCustomerAccounts(Long customerId) {
-		return accountServiceClient.getAccounts(customerId);
+		List<AccountSummaryVO> list = accountServiceClient.getAccounts(customerId);
+		if(list.size() > 0) {
+			return Optional.of(list);
+		}
+		return Optional.empty();
 	}
-	
 }

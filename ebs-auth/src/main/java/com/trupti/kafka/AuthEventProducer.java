@@ -17,9 +17,6 @@ public class AuthEventProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    /**
-     * Publish login event to Kafka
-     */
     public void publishLoginEvent(Long customerId,
                                   String username,
                                   String ipAddress,
