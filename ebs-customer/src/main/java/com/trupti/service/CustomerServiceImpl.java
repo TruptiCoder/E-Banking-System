@@ -69,14 +69,14 @@ public class CustomerServiceImpl {
 	public Optional<CustomerDTO> createCustomer(CreateCustomerRequest request) {
 		Customer entity = new Customer();
 		entity.setUsername(request.getUsername());
-		String passwordHash = passwordEncoder.encode(request.getPassword());
+		String passwordHash = passwordEncoder.encode("password");
 		entity.setPasswordHash(passwordHash);
 		entity.setAddress(request.getAddress());
 		entity.setEmail(request.getEmail());
 		entity.setPhone(request.getPhone());
 		entity.setCreatedAt(LocalDateTime.now());
 		entity.setUpdatedAt(LocalDateTime.now());
-		entity.setStatus("Active");
+		entity.setStatus("New");
 		
 		Optional<Customer> customerRes = customerRepository.findByUsername(request.getUsername());
 		if(customerRes.isPresent()) return Optional.empty();
@@ -116,7 +116,6 @@ public class CustomerServiceImpl {
 		customer.setUsername(request.getUsername());
 		customer.setAddress(request.getAddress());
 		customer.setEmail(request.getEmail());
-		customer.setUsername(passwordEncoder.encode(request.getPassword()));
 		customer.setPhone(request.getPhone());
 		
 		CustomerProfile profile = customerProfileRepository.findByCustomerId(customerId).get();
@@ -144,7 +143,14 @@ public class CustomerServiceImpl {
 		if(customer.isEmpty()) return false;
 		Customer customerEntity = customer.get();
 		customerEntity.setPasswordHash(passwordHash);
+		customerEntity.setStatus("Active");
 		customerRepository.save(customerEntity);
 		return true;
+	}
+
+	public Optional<CustomerProfileDTO> getProfile(Long customerId) {
+		Optional<CustomerProfile> profileEntity = customerProfileRepository.findByCustomerId(customerId);
+		if(profileEntity.isEmpty()) return Optional.empty();
+		return Optional.of(mapper.map(profileEntity, CustomerProfileDTO.class));
 	}
 }

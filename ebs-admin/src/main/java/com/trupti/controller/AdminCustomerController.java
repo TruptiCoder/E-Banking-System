@@ -28,8 +28,10 @@ public class AdminCustomerController {
 	private final AdminCustomerService adminCustomerService;
 
 	@PostMapping
-	public CustomerResponse createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
-		return adminCustomerService.createCustomer(request);
+	public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
+		Optional<CustomerResponse> res = adminCustomerService.createCustomer(request);
+		if(res.isEmpty()) return ResponseEntity.ok().body(new CustomerResponse(null, "Customer not created!"));
+		return ResponseEntity.ok().body(res.get());
 	}
 
 	@GetMapping("/{customerId}")

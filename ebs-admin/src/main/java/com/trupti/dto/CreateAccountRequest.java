@@ -25,8 +25,4 @@ public class CreateAccountRequest {
     @NotNull(message = "Initial deposit is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "Initial deposit must be greater than 0")
     private BigDecimal initialDeposit;
-
-    private String currency;
-
-    private String branchCode;
 }

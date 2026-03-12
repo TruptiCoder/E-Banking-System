@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.trupti.dto.CustomerResponseDTO;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 @FeignClient(name = "EBS-CUSTOMER", path = "/api/customers")
 public interface CustomerServiceClient {
 	
@@ -16,6 +18,6 @@ public interface CustomerServiceClient {
 	@GetMapping("/getbyUsername/{username}")
 	CustomerResponseDTO getCustomerByUsername(@PathVariable String username);
 	
-	@PutMapping("/{customerId}/{passwordHash}")
-	boolean changePassword(@PathVariable Long customerId, @PathVariable String passwordHash);
+	@PutMapping("/{customerId}")
+	boolean changePassword(@PathVariable Long customerId, @RequestBody String passwordHash);
 }
