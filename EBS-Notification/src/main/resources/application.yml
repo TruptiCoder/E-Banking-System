@@ -1,0 +1,43 @@
+spring:
+ mail:
+  host: smtp.gmail.com
+  port: 587
+  username: aplibank123@gmail.com
+  password: imgr ofdq dyzy kazx
+
+  properties:
+   mail:
+    smtp:
+     auth: true
+     starttls:
+      enable: true		
+  
+ kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: EBS-Notification
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+    properties:
+      spring.json.trusted.packages: "*"
+
+resilience4j:
+ circuitbreaker:
+  instances:
+   customerService:
+    slidingWindowSize: 5
+    failureRateThreshold: 50
+    waitDurationInOpenState: 10s
+    permittedNumberOfCallsInHalfOpenState: 3
+
+management:
+ endpoints:
+  web:
+   exposure:
+    include: "*"
+ defaults:
+  metrics:
+    export:
+     enabled: false

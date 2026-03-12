@@ -1,4 +1,20 @@
-.metadata/
+# ===========================
+# Java
+# ===========================
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+
+# ===========================
+# Maven
+# ===========================
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -167,4 +183,9 @@ gradle-app.setting
 # Eclipse project files
 .classpath
 .project
-*.log
+.settings/
+*.launch
+.gitattributes
+mvnw
+mvnw.cmd
+.mvn/
