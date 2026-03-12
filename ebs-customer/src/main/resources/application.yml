@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: EBS-CUSTOMER
+
+  datasource:
+    url: jdbc:postgresql://ep-curly-cherry-a1t7eruq-pooler.ap-southeast-1.aws.neon.tech/neondb?user=neondb_owner&password=npg_o07eKECViOAT&sslmode=require&channelBinding=require
+#    username: postgres
+#    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

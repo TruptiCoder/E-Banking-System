@@ -1,0 +1,98 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webmvc:
+
+          routes:
+
+            # AUTH SERVICE
+            - id: EBS-AUTH
+              uri: lb://EBS-AUTH
+              predicates:
+                - Path=/api/auth/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-AUTH
+                    fallbackUri: forward:/accountServiceFallback
+
+            # CUSTOMER SERVICE
+            - id: EBS-CUSTOMER
+              uri: lb://EBS-CUSTOMER
+              predicates:
+                - Path=/api/customers/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-CUSTOMER
+                    fallbackUri: forward:/accountServiceFallback
+
+            # ACCOUNT SERVICE
+            - id: EBS-ACCOUNT
+              uri: lb://EBS-ACCOUNT
+              predicates:
+                - Path=/api/accounts/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-ACCOUNT
+                    fallbackUri: forward:/accountServiceFallback
+
+            # TRANSACTION SERVICE
+            - id: EBS-TRANSACTION
+              uri: lb://EBS-TRANSACTION
+              predicates:
+                - Path=/api/transactions/**
+              filters:
+                - StripPrefix=1
+
+            # FUND TRANSFER SERVICE
+            - id: EBS-FUNDTRANSFER
+              uri: lb://EBS-FUNDTRANSFER
+              predicates:
+                - Path=/api/transfers/**
+              filters:
+                - StripPrefix=1
+
+            # BENEFICIARY SERVICE
+            - id: EBS-BENEFICIARY
+              uri: lb://EBS-BENEFICIARY
+              predicates:
+                - Path=/api/beneficiaries/**
+              filters:
+                - StripPrefix=1
+
+            # STATEMENT SERVICE
+            - id: EBS-STATEMENT
+              uri: lb://EBS-STATEMENT
+              predicates:
+                - Path=/api/statements/**
+              filters:
+                - StripPrefix=1
+
+            # FIXED DEPOSIT SERVICE
+            - id: EBS-FIXEDDEPOSIT
+              uri: lb://EBS-FIXEDDEPOSIT
+              predicates:
+                - Path=/api/fixed-deposits/**
+              filters:
+                - StripPrefix=1
+
+            # NOTIFICATION SERVICE
+            - id: EBS-NOTIFICATION
+              uri: lb://EBS-NOTIFICATION
+              predicates:
+                - Path=/api/notifications/**
+              filters:
+                - StripPrefix=1
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
