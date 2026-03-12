@@ -19,22 +19,22 @@ import lombok.NoArgsConstructor;
 @Table(name = "audit_logs")
 public class AuditLog {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "log_id")
-    private Long logId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "log_id")
+	private Long logId;
 
-    @Column(name = "customer_id")
-    private Long customerId;
+	@Column(name = "customer_id")
+	private Long customerId;
 
-    @Column(name = "action")
-    private String action;
+	@Column(name = "action")
+	private String action;
 
-    @Column(name = "service_name")
-    private String serviceName;
+	@Column(name = "service_name")
+	private String serviceName;
 
-    @Column(name = "ip_address")
-    private String ipAddress;
+	@Column(name = "ip_address")
+	private String ipAddress;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
 }

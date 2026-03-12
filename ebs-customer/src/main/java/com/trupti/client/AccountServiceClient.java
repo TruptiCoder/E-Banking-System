@@ -10,7 +10,7 @@ import com.trupti.vo.AccountSummaryVO;
 
 @FeignClient(name = "EBS-ACCOUNT")
 public interface AccountServiceClient {
-	
+
 	@GetMapping("/api/accounts/customer/{customerId}")
 	List<AccountSummaryVO> getAccounts(@PathVariable Long customerId);
 }

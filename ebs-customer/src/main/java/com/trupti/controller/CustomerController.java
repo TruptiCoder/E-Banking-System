@@ -39,13 +39,15 @@ public class CustomerController {
 		}
 		return ResponseEntity.ok().body(new CustomerResponseVO(null, "Customer not found!"));
 	}
-	
+
 	@GetMapping("/getwithprfile/{customerId}")
 	public ResponseEntity<CustomerWithProfileVO> getCustomerWithProfile(@PathVariable Long customerId) {
 		Optional<CustomerDTO> customerDto = service.getCustomer(customerId);
 		Optional<CustomerProfileDTO> profileDto = service.getProfile(customerId);
-		if(customerDto.isEmpty() || profileDto.isEmpty()) return ResponseEntity.ok().body(new CustomerWithProfileVO(null, null, "Customer does not exists!"));
-		return ResponseEntity.ok().body(new CustomerWithProfileVO(customerDto.get(), profileDto.get(), "Customer fetched successfully!"));
+		if (customerDto.isEmpty() || profileDto.isEmpty())
+			return ResponseEntity.ok().body(new CustomerWithProfileVO(null, null, "Customer does not exists!"));
+		return ResponseEntity.ok()
+				.body(new CustomerWithProfileVO(customerDto.get(), profileDto.get(), "Customer fetched successfully!"));
 	}
 
 	@PutMapping("/{customerId}/profile")
@@ -68,14 +70,15 @@ public class CustomerController {
 		}
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("/getbyUsername/{username}")
 	public ResponseEntity<CustomerResponseVO> getCustomerByUsername(@PathVariable String username) {
 		Optional<CustomerDTO> dto = service.getCustomerByUsername(username);
-		if(dto.isEmpty()) return ResponseEntity.ok().body(new CustomerResponseVO(null, "User not found!"));
+		if (dto.isEmpty())
+			return ResponseEntity.ok().body(new CustomerResponseVO(null, "User not found!"));
 		return ResponseEntity.ok().body(new CustomerResponseVO(dto.get(), "User fetched Successfully!"));
 	}
-	
+
 	@PutMapping("/{customerId}")
 	public ResponseEntity<Boolean> changePassword(@PathVariable Long customerId, @RequestBody String passwordHash) {
 		boolean res = service.changePassword(customerId, passwordHash);

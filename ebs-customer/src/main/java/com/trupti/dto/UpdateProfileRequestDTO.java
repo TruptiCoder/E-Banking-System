@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateProfileRequestDTO {
 	private String firstName;
-    private String lastName;
-    private LocalDate dateOfBirth;
+	private String lastName;
+	private LocalDate dateOfBirth;
 
-    private String address;
-    private String city;
-    private String country;
-    private String postalCode;
+	private String address;
+	private String city;
+	private String country;
+	private String postalCode;
 }

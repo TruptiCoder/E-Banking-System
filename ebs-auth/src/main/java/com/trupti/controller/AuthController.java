@@ -85,15 +85,17 @@ public class AuthController {
 	@PostMapping("/forgot-password/request-otp")
 	public ResponseEntity<?> requestOtp(@RequestBody ForgotPasswordRequestDTO request) {
 
-		boolean res =forgotPasswordService.generateOtp(request.getUsername());
-		if(!res) return ResponseEntity.ok("Customer does not exists!");
+		boolean res = forgotPasswordService.generateOtp(request.getUsername());
+		if (!res)
+			return ResponseEntity.ok("Customer does not exists!");
 		return ResponseEntity.ok("OTP sent to registered email");
 	}
 
 	@PostMapping("/forgot-password/reset")
 	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO request) {
 
-		String res = forgotPasswordService.resetPassword(request.getUsername(), request.getOtp(), request.getNewPassword());
+		String res = forgotPasswordService.resetPassword(request.getUsername(), request.getOtp(),
+				request.getNewPassword());
 		return ResponseEntity.ok(res);
 	}
 }

@@ -11,13 +11,13 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @FeignClient(name = "EBS-CUSTOMER", path = "/api/customers")
 public interface CustomerServiceClient {
-	
+
 	@GetMapping("/{customerId}")
 	CustomerResponseDTO getCustomer(@PathVariable Long customerId);
-	
+
 	@GetMapping("/getbyUsername/{username}")
 	CustomerResponseDTO getCustomerByUsername(@PathVariable String username);
-	
+
 	@PutMapping("/{customerId}")
 	boolean changePassword(@PathVariable Long customerId, @RequestBody String passwordHash);
 }

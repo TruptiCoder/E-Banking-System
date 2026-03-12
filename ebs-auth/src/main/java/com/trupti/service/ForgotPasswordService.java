@@ -33,7 +33,7 @@ public class ForgotPasswordService {
 
 		String otp = String.valueOf(new Random().nextInt(900000) + 100000);
 
-		PasswordResetOtp resetOtp = new PasswordResetOtp();    
+		PasswordResetOtp resetOtp = new PasswordResetOtp();
 		resetOtp.setUsername(username);
 		resetOtp.setOtpCode(otp);
 		resetOtp.setCreatedAt(LocalDateTime.now());
@@ -47,10 +47,11 @@ public class ForgotPasswordService {
 	public String resetPassword(String username, String otp, String newPassword) {
 
 		Optional<PasswordResetOtp> savedOtpRes = otpRepository.findTopByUsernameOrderByCreatedAtDesc(username);
-		if(savedOtpRes.isEmpty()) return "Customer not found!";
-		
+		if (savedOtpRes.isEmpty())
+			return "Customer not found!";
+
 		PasswordResetOtp savedOtp = savedOtpRes.get();
-		
+
 		if (!savedOtp.getOtpCode().equals(otp)) {
 			return "OTP is wrong, Try again!";
 		}
@@ -60,7 +61,8 @@ public class ForgotPasswordService {
 		}
 
 		CustomerResponseDTO customerRes = customerClient.getCustomerByUsername(username);
-		if(customerRes.getCustomerDTO() == null) return "Customer not found!";
+		if (customerRes.getCustomerDTO() == null)
+			return "Customer not found!";
 		CustomerDTO customer = customerRes.getCustomerDTO();
 		String passwordHash = passwordEncoder.encode(newPassword);
 
@@ -68,7 +70,7 @@ public class ForgotPasswordService {
 
 		savedOtp.setUsed(true);
 		otpRepository.save(savedOtp);
-		
+
 		return "Password changed successfully!";
 	}
 }

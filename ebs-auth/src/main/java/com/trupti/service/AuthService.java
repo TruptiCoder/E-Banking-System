@@ -34,8 +34,9 @@ public class AuthService {
 	public Optional<LoginResponseDTO> login(LoginRequestDTO request, String ipAddress) {
 
 		CustomerResponseDTO customerRes = customerServiceClient.getCustomerByUsername(request.getUsername());
-		if(customerRes.getCustomerDTO() == null) return Optional.empty();
-		
+		if (customerRes.getCustomerDTO() == null)
+			return Optional.empty();
+
 		CustomerDTO customer = customerRes.getCustomerDTO();
 		if (!passwordEncoder.matches(request.getPassword(), customer.getPasswordHash())) {
 			recordAudit(customer.getCustomerId(), "LOGIN_FAILED", ipAddress);
@@ -62,19 +63,21 @@ public class AuthService {
 		Long customerId = jwtTokenProvider.getCustomerId(request.getRefreshToken());
 
 		CustomerResponseDTO customer = customerServiceClient.getCustomer(customerId);
-		if(customer.getCustomerDTO() == null) return Optional.empty();
+		if (customer.getCustomerDTO() == null)
+			return Optional.empty();
 
 		String newAccessToken = jwtTokenProvider.generateAccessToken(customer.getCustomerDTO());
 
-		return Optional.of(LoginResponseDTO.builder().accessToken(newAccessToken).refreshToken(request.getRefreshToken())
-				.expiresIn(3600).build());
+		return Optional.of(LoginResponseDTO.builder().accessToken(newAccessToken)
+				.refreshToken(request.getRefreshToken()).expiresIn(3600).build());
 	}
 
 	public boolean changePassword(ChangePasswordDTO request) {
 
 		CustomerResponseDTO customerRes = customerServiceClient.getCustomer(request.getCustomerId());
-		if(customerRes.getCustomerDTO() == null) return false;
-		
+		if (customerRes.getCustomerDTO() == null)
+			return false;
+
 		CustomerDTO customer = customerRes.getCustomerDTO();
 		if (!passwordEncoder.matches(request.getOldPassword(), customer.getPasswordHash())) {
 			return false;

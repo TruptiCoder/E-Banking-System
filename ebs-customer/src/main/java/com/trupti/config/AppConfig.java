@@ -12,7 +12,7 @@ public class AppConfig {
 	ModelMapper getMapper() {
 		return new ModelMapper();
 	}
-	
+
 	@Bean
 	PasswordEncoder getEncoder() {
 		return new BCryptPasswordEncoder();

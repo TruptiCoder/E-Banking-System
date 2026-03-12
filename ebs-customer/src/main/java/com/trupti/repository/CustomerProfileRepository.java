@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.trupti.entity.CustomerProfile;
 
-
 @Repository
 public interface CustomerProfileRepository extends JpaRepository<CustomerProfile, Long> {
 	Optional<CustomerProfile> findByCustomerId(Long customerId);

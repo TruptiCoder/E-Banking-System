@@ -8,30 +8,25 @@ import com.trupti.dto.CustomerDTO;
 public class JwtTokenProvider {
 	private final JwtUtil jwtUtil;
 
-    public JwtTokenProvider(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
+	public JwtTokenProvider(JwtUtil jwtUtil) {
+		this.jwtUtil = jwtUtil;
+	}
 
-    public String generateAccessToken(CustomerDTO customer) {
+	public String generateAccessToken(CustomerDTO customer) {
 
-        return jwtUtil.generateAccessToken(
-                customer.getCustomerId(),
-                customer.getUsername()
-        );
-    }
+		return jwtUtil.generateAccessToken(customer.getCustomerId(), customer.getUsername());
+	}
 
-    public String generateRefreshToken(CustomerDTO customer) {
+	public String generateRefreshToken(CustomerDTO customer) {
 
-        return jwtUtil.generateRefreshToken(
-                customer.getCustomerId()
-        );
-    }
+		return jwtUtil.generateRefreshToken(customer.getCustomerId());
+	}
 
-    public boolean validateToken(String token) {
-        return jwtUtil.validateToken(token);
-    }
+	public boolean validateToken(String token) {
+		return jwtUtil.validateToken(token);
+	}
 
-    public Long getCustomerId(String token) {
-        return jwtUtil.extractCustomerId(token);
-    }
+	public Long getCustomerId(String token) {
+		return jwtUtil.extractCustomerId(token);
+	}
 }

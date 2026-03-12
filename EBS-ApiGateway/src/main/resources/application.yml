@@ -9,16 +9,16 @@ spring:
 
           routes:
 
-            # AUTH SERVICE
-            - id: EBS-AUTH
-              uri: lb://EBS-AUTH
-              predicates:
-                - Path=/api/auth/**
-              filters:
-                - name: CircuitBreaker
-                  args:
-                    id: EBS-AUTH
-                    fallbackUri: forward:/accountServiceFallback
+#            # AUTH SERVICE
+#            - id: EBS-AUTH
+#              uri: lb://EBS-AUTH
+#              predicates:
+#                - Path=/api/auth/**
+#              filters:
+#                - name: CircuitBreaker
+#                  args:
+#                    id: EBS-AUTH
+#                    fallbackUri: forward:/accountServiceFallback
 
             # CUSTOMER SERVICE
             - id: EBS-CUSTOMER
@@ -29,8 +29,12 @@ spring:
                 - name: CircuitBreaker
                   args:
                     id: EBS-CUSTOMER
-                    fallbackUri: forward:/accountServiceFallback
-
+                    fallbackUri: forward:/accountServiceFallback							
+            # Auth SERVICE
+            - id: EBS-AUTH
+              uri: lb://EBS-AUTH
+              predicates:
+                - Path=/api/auth/**
             # ACCOUNT SERVICE
             - id: EBS-ACCOUNT
               uri: lb://EBS-ACCOUNT
@@ -48,7 +52,10 @@ spring:
               predicates:
                 - Path=/api/transactions/**
               filters:
-                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-TRANSACTION
+                    fallbackUri: forward:/accountServiceFallback
 
             # FUND TRANSFER SERVICE
             - id: EBS-FUNDTRANSFER
@@ -56,7 +63,10 @@ spring:
               predicates:
                 - Path=/api/transfers/**
               filters:
-                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-FUNDTRANSFER
+                    fallbackUri: forward:/accountServiceFallback
 
             # BENEFICIARY SERVICE
             - id: EBS-BENEFICIARY
@@ -64,7 +74,10 @@ spring:
               predicates:
                 - Path=/api/beneficiaries/**
               filters:
-                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-BENEFICIARY
+                    fallbackUri: forward:/accountServiceFallback
 
             # STATEMENT SERVICE
             - id: EBS-STATEMENT
@@ -72,7 +85,10 @@ spring:
               predicates:
                 - Path=/api/statements/**
               filters:
-                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-STATEMENT
+                    fallbackUri: forward:/accountServiceFallback
 
             # FIXED DEPOSIT SERVICE
             - id: EBS-FIXEDDEPOSIT
@@ -80,7 +96,10 @@ spring:
               predicates:
                 - Path=/api/fixed-deposits/**
               filters:
-                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-FIXEDDEPOSIT
+                    fallbackUri: forward:/accountServiceFallback
 
             # NOTIFICATION SERVICE
             - id: EBS-NOTIFICATION
@@ -88,11 +107,16 @@ spring:
               predicates:
                 - Path=/api/notifications/**
               filters:
-                - StripPrefix=1
+                - name: CircuitBreaker
+                  args:
+                    id: EBS-NOTIFICATION
+                    fallbackUri: forward:/accountServiceFallback
 
 
 
 eureka:
   client:
     service-url:
+      register-with-eureka: true
+      fetch-registry: true
       defaultZone: http://localhost:8761/eureka/

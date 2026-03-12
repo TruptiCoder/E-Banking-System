@@ -19,16 +19,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "password_history")
 public class PasswordHistory {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "history_id")
-    private Long historyId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "history_id")
+	private Long historyId;
 
-    @Column(name = "customer_id")
-    private Long customerId;
+	@Column(name = "customer_id")
+	private Long customerId;
 
-    @Column(name = "password_hash")
-    private String passwordHash;
+	@Column(name = "password_hash")
+	private String passwordHash;
 
-    @Column(name = "changed_at")
-    private LocalDateTime changedAt;
+	@Column(name = "changed_at")
+	private LocalDateTime changedAt;
 }

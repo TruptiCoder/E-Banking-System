@@ -16,7 +16,7 @@ import lombok.Data;
 @Entity
 @Table(name = "customer_profiles")
 public class CustomerProfile {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long profileId;
@@ -25,7 +25,7 @@ public class CustomerProfile {
 	private String firstName;
 	private String lastName;
 	private LocalDate dateOfBirth;
-    private String address;
+	private String address;
 	private String city;
 	private String country;
 	private String postalCode;

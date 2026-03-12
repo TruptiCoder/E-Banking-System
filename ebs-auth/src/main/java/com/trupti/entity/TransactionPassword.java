@@ -19,15 +19,15 @@ import lombok.NoArgsConstructor;
 @Table(name = "transaction_passwords")
 public class TransactionPassword {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "customer_id", nullable = false)
-    private Long customerId;
+	@Column(name = "customer_id", nullable = false)
+	private Long customerId;
 
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+	@Column(name = "password_hash", nullable = false)
+	private String passwordHash;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+	@Column(name = "updated_at")
+	private LocalDateTime updatedAt;
 }
