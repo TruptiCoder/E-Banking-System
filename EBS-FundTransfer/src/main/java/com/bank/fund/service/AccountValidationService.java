@@ -37,4 +37,8 @@ public class AccountValidationService {
 
         throw new RuntimeException("Account Service temporarily unavailable");
     }
+
+	public AccountResponseDTO getAccountByNumber(String destinationAccountId) {
+		return accountClient.findByNumber(destinationAccountId);
+	}
 }

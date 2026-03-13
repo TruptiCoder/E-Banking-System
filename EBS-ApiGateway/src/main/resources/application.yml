@@ -62,11 +62,6 @@ spring:
               uri: lb://EBS-FUNDTRANSFER
               predicates:
                 - Path=/api/transfers/**
-              filters:
-                - name: CircuitBreaker
-                  args:
-                    id: EBS-FUNDTRANSFER
-                    fallbackUri: forward:/accountServiceFallback
 
             # BENEFICIARY SERVICE
             - id: EBS-BENEFICIARY

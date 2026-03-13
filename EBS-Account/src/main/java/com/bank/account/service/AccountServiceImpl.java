@@ -69,6 +69,7 @@ public class AccountServiceImpl implements AccountService{
 				.accountNumber(accountEntity.getAccountNumber())
 				.accountType(accountEntity.getAccountType())
 				.balance(accountEntity.getBalance())
+				.status(accountEntity.getStatus())
 				.build();
 	}
 
@@ -119,7 +120,7 @@ public class AccountServiceImpl implements AccountService{
 		req.setAmount(request.getAmount());
 		req.setBalanceAfter(accountEntity.getBalance());
 		req.setDescription("Debited " + request.getAmount());
-		req.setTransactionType("Debit");
+		req.setTransactionType("DEBIT");
 		client.recordTransaction(req);
 	}
 
@@ -137,7 +138,7 @@ public class AccountServiceImpl implements AccountService{
 		req.setAmount(request.getAmount());
 		req.setBalanceAfter(accountEntity.getBalance());
 		req.setDescription("Credited " + request.getAmount());
-		req.setTransactionType("Credit");
+		req.setTransactionType("CREDIT");
 		client.recordTransaction(req);
 	}
 
