@@ -5,7 +5,7 @@ export async function generateStatementAPI(payload) {
   const res = await apiClient.post("/api/statements/generate", payload, {
     responseType: "blob",   // tell axios to treat response as a file
   });
- 
+  console.log(res);
   // Create a temporary download link and trigger it
   const url = window.URL.createObjectURL(new Blob([res.data]));
   const link = document.createElement("a");

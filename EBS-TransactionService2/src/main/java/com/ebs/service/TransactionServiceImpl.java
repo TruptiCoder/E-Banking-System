@@ -62,6 +62,16 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(entity -> modelMapper.map(entity, TransactionResponseDTO.class))
                 .collect(Collectors.toList());
     }
+    
+    @Override
+    public List<TransactionResponseDTO> getAllTransactionHistory(Long accountId) {
+    	List<TransactionEntity> entities = repository.findByAccountId(accountId);
+    	
+    	return entities.stream()
+    			.map(entity -> modelMapper.map(entity, TransactionResponseDTO.class))
+    			.collect(Collectors.toList());
+    }
+    
     @Override
     public List<TransactionResponseDTO> getRecentTransactions(Long accountId) {
         // Use the stream-based mapping for List returns

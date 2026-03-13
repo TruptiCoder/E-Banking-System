@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/transactions")
 @RequiredArgsConstructor
-@CrossOrigin
 public class TransactionController {
 
 	private final TransactionService transactionService;
@@ -53,6 +52,11 @@ public class TransactionController {
 	@GetMapping("/{accountId}/recent")
 	public ResponseEntity<List<TransactionResponseDTO>> getRecentTransactions(@PathVariable Long accountId) {
 		return ResponseEntity.ok(transactionService.getRecentTransactions(accountId));
+	}
+	
+	@GetMapping("/{accountId}/history")
+	public ResponseEntity<List<TransactionResponseDTO>> getAllTransactions(@PathVariable Long accountId) {
+		return ResponseEntity.ok(transactionService.getAllTransactionHistory(accountId));
 	}
 
 	// 4. Single transaction detail by ID

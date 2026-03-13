@@ -161,4 +161,11 @@ public class CustomerServiceImpl {
 			return Optional.empty();
 		return Optional.of(mapper.map(profileEntity, CustomerProfileDTO.class));
 	}
+
+	public boolean validatePin(Long customerId, String pin) {
+		Optional<Customer> customer = customerRepository.findById(customerId);
+		if(customer.isEmpty()) return false;
+		String passHash = customer.get().getPasswordHash();
+		return passwordEncoder.matches(pin, passHash);
+	}
 }

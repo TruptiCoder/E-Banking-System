@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.trupti.dto.CustomerDTO;
 import com.trupti.dto.CustomerProfileDTO;
 import com.trupti.dto.UpdateProfileRequestDTO;
+import com.trupti.dto.ValidatePinRequest;
 import com.trupti.service.CustomerServiceImpl;
 import com.trupti.vo.AccountSummaryVO;
 import com.trupti.vo.CustomerResponseVO;
@@ -83,6 +85,13 @@ public class CustomerController {
 	public ResponseEntity<Boolean> changePassword(@PathVariable Long customerId, @RequestBody String passwordHash) {
 		boolean res = service.changePassword(customerId, passwordHash);
 		return ResponseEntity.ok().body(res);
+	}
+	 
+	@PostMapping("/validate-pin")
+	public ResponseEntity<Boolean> validatePin(
+	        @RequestBody ValidatePinRequest request) {
+	    boolean res = service.validatePin(request.getCustomerId(), request.getPin());
+	    return ResponseEntity.ok().body(res);
 	}
 
 }

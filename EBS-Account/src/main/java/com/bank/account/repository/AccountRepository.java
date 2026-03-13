@@ -9,4 +9,5 @@ import com.bank.account.entity.AccountEntity;
 public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
 	List<AccountEntity> findByCustomerId(Long customerId);
+	AccountEntity findByAccountNumber(String accountNumber);
 }
