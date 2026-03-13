@@ -40,6 +40,7 @@ A production-style **microservices-based digital banking system** built with Spr
 | Statement Service | 8087 | Account statements |
 | Fixed Deposit Service | 8088 | FD lifecycle |
 | Notification Service | 8089 | SMS & Email alerts |
+| Admin Service | 8090 | Customer and account creation |
 
 ---
 
@@ -53,29 +54,18 @@ A production-style **microservices-based digital banking system** built with Spr
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-org/distributed-banking-platform.git
-cd distributed-banking-platform
+git clone https://github.com/TruptiCoder/E-Banking-System.git
+cd E-Banking-System
 ```
 
-### 2. Configure environment
+### 2. Run frontend
 ```bash
-cp .env.example .env
-# Fill in your DB credentials and JWT secret
-```
-
-### 3. Start everything with Docker Compose
-```bash
-docker-compose up --build
-```
-
-### 4. Run frontend
-```bash
-cd frontend
+cd ebs-frontend
 npm install
 npm start
 ```
 
-App is available at **http://localhost:3001**
+App is available at **http://localhost:5173**
 API Gateway at **http://localhost:8080**
 Eureka Dashboard at **http://localhost:8761**
 
@@ -98,25 +88,20 @@ Eureka Dashboard at **http://localhost:8761**
 
 ```
 distributed-banking-platform/
-├── eureka-server/
-├── api-gateway/
-├── auth-service/
-├── customer-service/
-├── account-service/
-├── transaction-service/
-├── fund-transfer-service/
-├── beneficiary-service/
-├── statement-service/
-├── fd-service/
-├── notification-service/
-├── frontend/
-├── docker-compose.yml
-├── .env.example
+├── EBS-Discovery-Server/
+├── EBS-ApiGateway/
+├── ebs-auth/
+├── ebs-customer/
+├── EBS-Account/
+├── EBS-TransactionService2/
+├── EBS-FundTransfer/
+├── EBS-BeneficiaryService/
+├── EBS-Statement/
+├── EBS-FundTransfer/
+├── EBS-NOTIFICATION/
+├── EBS-frontend/
+├── ebs-admin/
 └── .gitignore
 ```
 
 ---
-
-## 📄 License
-
-This project is built for academic and portfolio purposes.
