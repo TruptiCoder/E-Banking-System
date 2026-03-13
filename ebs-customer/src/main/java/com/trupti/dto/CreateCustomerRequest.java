@@ -16,34 +16,34 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateCustomerRequest {
 
-    @NotBlank(message = "Username is required")
-    private String username;
+	@NotBlank(message = "Username is required")
+	private String username;
 
-    @Email(message = "Invalid email format")
-    @NotBlank(message = "Email is required")
-    private String email;
+	@Email(message = "Invalid email format")
+	@NotBlank(message = "Email is required")
+	private String email;
 
-    @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Phone must be 10 digits")
-    private String phone;
+	@NotBlank(message = "Phone number is required")
+	@Pattern(regexp = "^[0-9]{10}$", message = "Phone must be 10 digits")
+	private String phone;
 
-    @NotBlank(message = "Address is required")
-    private String address;
-    
-    @NotBlank(message = "First name is required")
-    private String firstName;
-    
-    @NotBlank(message = "Last name is required")
+	@NotBlank(message = "Address is required")
+	private String address;
+
+	@NotBlank(message = "First name is required")
+	private String firstName;
+
+	@NotBlank(message = "Last name is required")
 	private String lastName;
-	
+
 	private LocalDate dateOfBirth;
-	
-    @NotBlank(message = "City is required")
+
+	@NotBlank(message = "City is required")
 	private String city;
-	
-    @NotBlank(message = "Country is required")
+
+	@NotBlank(message = "Country is required")
 	private String country;
-	
-    @NotBlank(message = "Postal code is required")
+
+	@NotBlank(message = "Postal code is required")
 	private String postalCode;
 }

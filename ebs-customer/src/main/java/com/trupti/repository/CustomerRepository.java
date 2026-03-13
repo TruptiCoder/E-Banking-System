@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.trupti.entity.Customer;
 
-
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	Optional<Customer> findByUsername(String username);

@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChangePasswordDTO {
 	private Long customerId;
-    private String oldPassword;
-    private String newPassword;
+	private String oldPassword;
+	private String newPassword;
 }

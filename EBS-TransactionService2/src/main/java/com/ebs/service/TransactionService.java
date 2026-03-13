@@ -14,4 +14,5 @@ public interface TransactionService {
 	TransactionResponseDTO getTransactionById(Long transactionId);
 	List<TransactionResponseDTO> getTransactionHistory(Long accountId, LocalDate start, LocalDate end);
 	TransactionEntity saveTransaction(TransactionRequestDTO dto);
+	List<TransactionResponseDTO> getAllTransactionHistory(Long accountId);
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccountSummaryVO {
 	private Long accountId;
-    private String accountNumber;
-    private String accountType;
-    private BigDecimal balance;
+	private String accountNumber;
+	private String accountType;
+	private BigDecimal balance;
 }

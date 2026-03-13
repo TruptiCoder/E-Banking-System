@@ -11,25 +11,22 @@ import org.springframework.stereotype.Component;
 public class AuthEventProducer {
 	private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    private static final String LOGIN_TOPIC = "banking.auth.login";
+	private static final String LOGIN_TOPIC = "banking.auth.login";
 
-    public AuthEventProducer(KafkaTemplate<String, Object> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
+	public AuthEventProducer(KafkaTemplate<String, Object> kafkaTemplate) {
+		this.kafkaTemplate = kafkaTemplate;
+	}
 
-    public void publishLoginEvent(Long customerId,
-                                  String username,
-                                  String ipAddress,
-                                  boolean success) {
+	public void publishLoginEvent(Long customerId, String username, String ipAddress, boolean success) {
 
-        Map<String, Object> event = new HashMap<>();
+		Map<String, Object> event = new HashMap<>();
 
-        event.put("customerId", customerId);
-        event.put("username", username);
-        event.put("ipAddress", ipAddress);
-        event.put("success", success);
-        event.put("timestamp", LocalDateTime.now().toString());
+		event.put("customerId", customerId);
+		event.put("username", username);
+		event.put("ipAddress", ipAddress);
+		event.put("success", success);
+		event.put("timestamp", LocalDateTime.now().toString());
 
-        kafkaTemplate.send(LOGIN_TOPIC, customerId.toString(), event);
-    }
+		kafkaTemplate.send(LOGIN_TOPIC, customerId.toString(), event);
+	}
 }

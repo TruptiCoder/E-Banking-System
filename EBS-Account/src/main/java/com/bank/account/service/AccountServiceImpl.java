@@ -2,15 +2,17 @@ package com.bank.account.service;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
 
+import com.bank.account.client.TransactionServiceClient;
 import com.bank.account.dto.AccountResponseDTO;
 import com.bank.account.dto.BalanceCheckRequest;
 import com.bank.account.dto.BalanceCheckResponse;
+import com.bank.account.dto.CardAuthResponse;
 import com.bank.account.dto.CreateAccountRequest;
 import com.bank.account.dto.CreditRequest;
 import com.bank.account.dto.DebitRequest;
+import com.bank.account.dto.TransactionRecordRequest;
 import com.bank.account.entity.AccountEntity;
 import com.bank.account.repository.AccountRepository;
 
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class AccountServiceImpl implements AccountService{
 
 	private final AccountRepository accountRepository;
+	private final TransactionServiceClient client;
 	
 	@Override
 	public AccountResponseDTO createAccount(CreateAccountRequest request) {
@@ -66,6 +69,7 @@ public class AccountServiceImpl implements AccountService{
 				.accountNumber(accountEntity.getAccountNumber())
 				.accountType(accountEntity.getAccountType())
 				.balance(accountEntity.getBalance())
+				.status(accountEntity.getStatus())
 				.build();
 	}
 
@@ -92,7 +96,7 @@ public class AccountServiceImpl implements AccountService{
 
 	    AccountEntity accountEntity = accountRepository.findById(request.getAccountId())
 	            .orElseThrow(() -> new RuntimeException("Account not found"));
-
+	    
 	    return BalanceCheckResponse.builder()
 	            .currentBalance(accountEntity.getBalance())
 	            .build();
@@ -111,6 +115,13 @@ public class AccountServiceImpl implements AccountService{
 		accountEntity.setBalance(accountEntity.getBalance().subtract(request.getAmount()));
 		
 		accountRepository.save(accountEntity);
+		TransactionRecordRequest req = new TransactionRecordRequest();
+		req.setAccountId(accountId);
+		req.setAmount(request.getAmount());
+		req.setBalanceAfter(accountEntity.getBalance());
+		req.setDescription("Debited " + request.getAmount());
+		req.setTransactionType("DEBIT");
+		client.recordTransaction(req);
 	}
 
 	@Override
@@ -122,6 +133,31 @@ public class AccountServiceImpl implements AccountService{
 		accountEntity.setBalance(accountEntity.getBalance().add(request.getAmount()));
 		
 		accountRepository.save(accountEntity);
+		TransactionRecordRequest req = new TransactionRecordRequest();
+		req.setAccountId(accountId);
+		req.setAmount(request.getAmount());
+		req.setBalanceAfter(accountEntity.getBalance());
+		req.setDescription("Credited " + request.getAmount());
+		req.setTransactionType("CREDIT");
+		client.recordTransaction(req);
+	}
+
+	@Override
+	public AccountResponseDTO getByNumber(String accountNumber) {
+		AccountEntity entity = accountRepository.findByAccountNumber(accountNumber);
+		if(entity != null) return mapToDTO(entity);
+		return null;
+	}
+
+	@Override
+	public CardAuthResponse authenticateCard(String accountNumber) {
+		AccountEntity entity = accountRepository.findByAccountNumber(accountNumber);
+		if(entity == null) return null;
+		CardAuthResponse res = new CardAuthResponse();
+		res.setAccountId(entity.getAccountId());
+		res.setAccountType(entity.getAccountType());
+		res.setCustomerId(entity.getCustomerId());
+		return res;
 	}
 
 }

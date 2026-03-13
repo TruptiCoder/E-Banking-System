@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
 		name = "EBS-CUSTOMER",
-		fallback = CustomerServiceFallback.class,
-		url = "http://192.168.1.82:8082"
+		fallback = CustomerServiceFallback.class
 )
 public interface CustomerServiceClient {
 

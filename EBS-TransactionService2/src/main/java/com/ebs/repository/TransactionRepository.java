@@ -15,4 +15,5 @@ List<TransactionEntity> findByAccountIdAndCreatedAtBetween(Long accountId, Local
 	List<TransactionEntity> findTop10ByAccountIdOrderByCreatedAtDesc(Long accountId);
 	//TransactionResponseDTO getTransactionById(Long transactionId);
 	Optional<TransactionEntity> findByTransactionId(Long transactionId);
+	List<TransactionEntity> findByAccountId(Long accountId);
 }

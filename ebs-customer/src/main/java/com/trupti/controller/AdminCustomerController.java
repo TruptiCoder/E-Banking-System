@@ -22,20 +22,23 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/customers/admin")
 @RequiredArgsConstructor
 public class AdminCustomerController {
-	
+
 	private final CustomerServiceImpl service;
-	
+
 	@PostMapping("/register")
 	public ResponseEntity<CustomerResponseVO> createCustomer(@RequestBody CreateCustomerRequest request) {
 		Optional<CustomerDTO> dto = service.createCustomer(request);
-		if(dto.isEmpty()) return ResponseEntity.ok().body(new CustomerResponseVO(null, "Customer with username already exists!"));
+		if (dto.isEmpty())
+			return ResponseEntity.ok().body(new CustomerResponseVO(null, "Customer with username already exists!"));
 		return ResponseEntity.ok().body(new CustomerResponseVO(dto.get(), "Customer created successfully!"));
 	}
 
 	@PutMapping("/{customerId}")
-	public ResponseEntity<CustomerResponseVO> updateCustomer(@PathVariable Long customerId, @RequestBody CreateCustomerRequest request) {
+	public ResponseEntity<CustomerResponseVO> updateCustomer(@PathVariable Long customerId,
+			@RequestBody CreateCustomerRequest request) {
 		Optional<CustomerDTO> dto = service.updateCustomer(customerId, request);
-		if(dto.isEmpty()) return ResponseEntity.ok().body(new CustomerResponseVO(null, "Customer does not exists!")); 
+		if (dto.isEmpty())
+			return ResponseEntity.ok().body(new CustomerResponseVO(null, "Customer does not exists!"));
 		return ResponseEntity.ok().body(new CustomerResponseVO(dto.get(), "Customer updated successfully!"));
 	}
 

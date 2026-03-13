@@ -7,7 +7,7 @@ import lombok.Data;
 public class FundTransferRequestDTO {
 
     private Long sourceAccountId;
-    private Long destinationAccountId;
+    private String destinationAccountId;
     private Long beneficiaryId;
     private BigDecimal amount;
     private String transactionPassword;

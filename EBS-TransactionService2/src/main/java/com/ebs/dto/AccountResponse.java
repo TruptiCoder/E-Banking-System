@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class AccountResponse {
     private boolean exists =true;
-    private Long AccountId;
+    private Long accountId;
 
 }
