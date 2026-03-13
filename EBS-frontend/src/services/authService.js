@@ -16,7 +16,7 @@ export async function loginAPI(username, password) {
   // // ── END MOCK ──
 
   const res = await apiClient.post("/api/auth/login", { username, password });
-  console.log("Login response:", res.data);
+  // console.log("Login response:", res.data);
   return res.data;
 }
 

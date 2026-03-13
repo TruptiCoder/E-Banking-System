@@ -7,7 +7,14 @@ export default function TransferForm({
   amount, setAmount,
   pin, setPin,
   onSubmit, loading, error, success,
+  bId, setBId
 }) {
+
+  const handleBen = (e) => {
+    setBeneficiary(e.target.value)
+    const found = beneficiaries.find((b) => b.accountNumber === e.target.value);
+    setBId(found?.beneficiaryId);
+  }
   return (
     <form onSubmit={onSubmit}>
       <div className="mb-3">
@@ -27,10 +34,10 @@ export default function TransferForm({
         <label className="form-label fw-semibold" style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: 0.5, color: "#374151" }}>
           To (Beneficiary)
         </label>
-        <select className="form-select" value={beneficiary} onChange={(e) => setBeneficiary(e.target.value)}>
+        <select className="form-select" value={beneficiary} onChange={handleBen}>
           <option value="">— Select Beneficiary —</option>
           {beneficiaries.map((b) => (
-            <option key={b.beneficiaryId} value={b.beneficiaryId}>
+            <option key={b.beneficiaryId} value={b.accountNumber}>
               {b.beneficiaryName} — {b.accountNumber} ({b.bankName})
             </option>
           ))}
@@ -59,8 +66,8 @@ export default function TransferForm({
         </label>
         <input
           className="form-control font-mono"
-          type="password" maxLength={6}
-          placeholder="6-digit PIN"
+          type="password"
+          placeholder="Password"
           value={pin}
           onChange={(e) => setPin(e.target.value)}
         />

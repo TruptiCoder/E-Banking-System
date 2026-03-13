@@ -335,16 +335,16 @@ export default function VirtualATM() {
     sets({ loading: true });
     try {
       await atmWithdraw({ accountId, amount: parseFloat(withdrawAmt), transactionPin: pin });
-      const newBal = (liveBalance ?? 0) - parseFloat(withdrawAmt);
+      const data = await atmGetBalance(accountId);
       sets({
-        liveBalance: newBal,
-        withdrawAmt: "",
+        liveBalance: data.balance,
+        withdrawAmt: parseFloat(withdrawAmt),
         screen:      S.SUCCESS,
         errorMsg:    "",
         loading:     false,
         lastTxn: {
           amount:       parseFloat(withdrawAmt),
-          balanceAfter: newBal,
+          balanceAfter: data.balance,
           time:         new Date().toLocaleTimeString("en-IN"),
           refNo:        randomRef(),
         },

@@ -23,7 +23,10 @@ export default function AddBeneficiary() {
     try {
       await addBeneficiaryAPI({ customerId: auth.customerId, beneficiaryName: name, accountNumber: account, bankName: bank, ifscCode: ifsc, email });
       navigate("/beneficiaries");
-    } catch { setError("Could not add beneficiary. Please try again."); }
+    } catch { 
+      navigate("/beneficiaries");
+      setError("Could not add beneficiary. Please try again."); 
+    }
     finally { setLoading(false); }
   }
 
